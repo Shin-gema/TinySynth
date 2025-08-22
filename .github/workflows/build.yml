@@ -1,0 +1,30 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake libasound2-dev
+
+    - name: Configure CMake
+      # Creates a build directory and configures the project.
+      # -S . specifies that the source is the current directory.
+      # -B build specifies that the build artifacts should go into a 'build' directory.
+      run: cmake -S . -B build
+
+    - name: Build
+      # Builds the project using the configuration from the previous step.
+      run: cmake --build build
